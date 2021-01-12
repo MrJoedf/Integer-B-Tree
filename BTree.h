@@ -37,7 +37,6 @@ struct Node{
       isEmpty=false;
       int q = numKeys;
       for(int i=0; i<q; i++){
-        //cout<<keys[i]<<" ";
         str+=to_string(keys[i])+" ";
       } 
     }else{
@@ -92,15 +91,12 @@ struct Node{
     
     void addNode(Node* parent, int& k, int index){
       int i;
-     // cout<<"ADD NODE WITH:  "<<k<<endl;
-     // cout<<"INDEX: "<<index<<endl;
+      
       for(i=parent->numKeys; i>index; i--){
-      //  cout<<"I IN LOOP: "<<i<<endl;
         parent->C[i+1]=parent->C[i];
         parent->keys[i]=parent->keys[i-1];
       }
-
-      //cout<<"I ADD NODE: "<<i<<endl;
+      
       parent->numKeys++;
       parent->C[i+1]=rightC;
       parent->keys[i]=k;
@@ -112,9 +108,6 @@ struct Node{
 
       int mid = floor(((parent->numKeys)*1.0)/2);
       int median = parent->keys[mid];
-      
-     // cout<<"INDEX: "<<index<<endl;
-     // cout<<"MID: "<<mid<<endl;
 
       if(mid < index){
         int i = mid+1;
@@ -131,9 +124,7 @@ struct Node{
 
         parent->numKeys=mid;
         right->numKeys=idx;
-       // cout<<"I INSERT: "<<index<<endl;
-       // cout<<"INDEX - MID -1: "<<index-mid-1<<endl;
-        
+   
         addNode(right,k,(index-mid-1));
         k=parent->keys[mid];
 
@@ -151,7 +142,7 @@ struct Node{
         }
 
         parent->numKeys=mid;
-       // cout<<"SPLIT INDEX 2: "<<index<<endl;
+
         addNode(parent, k, index);
         parent->numKeys-=1;
         k=parent->keys[parent->numKeys];
@@ -163,7 +154,6 @@ struct Node{
         rightC=right;
     }
 
-    //this search function was sourced from GeeksforGeeks at https://www.geeksforgeeks.org/introduction-of-b-tree-2/ and slightly modified
     bool numFound(Node* parent, int k){
        if(parent){
         int i=0;
@@ -180,7 +170,6 @@ struct Node{
 
         return numFound(parent->C[i], k);
       }
-        //cout<<k<<" NOT FOUND"<<endl;
         return false; 
     }
     
@@ -191,8 +180,6 @@ struct Node{
         int i=0;
 
         if(!numFound(parent, k)){
-           // cout<<k<<" NOT ALREADY IN TREE"<<endl<<endl;
-          
             if(k>parent->keys[parent->numKeys-1]){
               cout<<parent->keys[parent->numKeys-1]<<endl;
               i=parent->numKeys;
@@ -211,13 +198,11 @@ struct Node{
             }//end of else statement 
 
             if(split==1){
-             // cout<<"SHOULD SPLIT"<<endl;
               if(parent->numKeys<degree-1){
                 addNode(parent, k, i);
                 split=0;
                 return;
               }
-             // cout<<"SECOND SPLIT"<<endl;
               splitChild(parent, k, i);
             }
         }
